@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="example.MyBook">
+  <resultMap id="bookResultMap" type="Book">
+    <result property="bisbn" column="bisbn"/>
+    <result property="btitle" column="btitle"/>
+    <result property="bprice" column="bprice"/>
+    <result property="bauthor" column="bauthor"/>
+  </resultMap>
+
+  <select id="selectByISBN" parameterType="String" resultMap="bookResultMap">
+    <![CDATA[
+    select bisbn, btitle, bprice, bauthor
+    from book
+    where bisbn = #{bisbn}
+    ]]>
+  </select>
+
+
+  <select id="selectByKeyWord" parameterType="String" resultMap="bookResultMap">
+     <![CDATA[
+    select bisbn, btitle, bprice, bauthor
+    from book
+    where btitle like #{bisbn}
+    ]]>
+  </select>
+
+  <update id="updateBook" parameterType="Book">
+    <![CDATA[
+    UPDATE book
+    set bauthor = #{bauthor},
+        btitle  = #{btitle},
+        bprice  = #{bprice}
+    WHERE bisbn = #{bisbn}
+    ]]>
+  </update>
+
+  <delete id="deleteBook" parameterType="String">
+    <![CDATA[
+    delete
+    from book
+    where bisbn = #{bisbn}
+    ]]>
+  </delete>
+
+  <insert id="insertBook" parameterType="Book">
+    <![CDATA[
+    INSERT INTO BOOK (BISBN, BTITLE, BPRICE, BAUTHOR)
+    VALUES (#{bisbn}, #{btitle}, #{bprice}, #{bauthor})
+    ]]>
+  </insert>
+</mapper>
