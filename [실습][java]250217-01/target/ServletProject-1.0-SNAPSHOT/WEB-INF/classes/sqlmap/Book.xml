@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="example.MyBook">
+  <resultMap id="bookResultMap" type="Book">
+    <result property="bisbn" column="bisbn"/>
+    <result property="btitle" column="btitle"/>
+    <result property="bprice" column="bprice"/>
+  </resultMap>
+
+  <resultMap id="bookResultMap2" type="Book">
+    <result property="bisbn" column="bisbn"/>
+    <result property="btitle" column="btitle"/>
+    <result property="bprice" column="bprice"/>
+    <result property="bauthor" column="bauthor"/>
+  </resultMap>
+
+  <select id="selectByKeyWord" parameterType="SearchedBook" resultMap="bookResultMap">
+     <![CDATA[
+    select bisbn, btitle, bprice
+    from book
+    where btitle like #{btitle}
+    and bprice<=#{bprice}
+    ]]>
+  </select>
+  <select id="selectByIsbn" parameterType="String" resultMap="bookResultMap2">
+     <![CDATA[
+    select bisbn, btitle, bprice,bauthor
+    from book
+    where bisbn = #{bisbn}
+    ]]>
+  </select>
+
+</mapper>

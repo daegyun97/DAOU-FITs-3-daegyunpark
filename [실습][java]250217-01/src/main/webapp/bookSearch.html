@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>도서검색 프로그램</title>
+</head>
+<body>
+<h1>도서검색 프로그램</h1>
+  <div class="container">
+    <form action="http://localhost:8080/ServletProject_war_exploded/BookController"
+          method="GET">
+      <label for="keyword">도서명 키워드 :</label>
+      <input name="keyWord" type="text" id="keyword" placeholder="설계">
+
+      <div class="radio-group">
+        <label><input type="radio" name="price" value="10000"> 10,000원미만</label><br>
+        <label><input type="radio" name="price" value="20000"> 20,000원미만</label><br>
+        <label><input type="radio" name="price" value="30000" checked> 30,000원미만</label><br>
+        <label><input type="radio" name="price" value="40000"> 40,000원미만</label><br>
+      </div>
+
+      <br>
+      <button type="submit">도서 검색!</button>
+    </form >
+  </div>
+<h2>Book Search Results</h2>
+
+</body>
+</html>
