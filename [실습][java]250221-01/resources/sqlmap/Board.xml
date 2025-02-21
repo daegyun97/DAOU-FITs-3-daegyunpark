@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="example.MyBoard">
+
+  <select id="selectAllBoars" parameterType="String"  resultType="Board" >
+     <![CDATA[
+    select id, title, content, created_at, deleted_at, author, cnt
+    FROM board
+    where deleted_at IS NULL AND title like #{keyword}
+    order by created_at desc
+    ]]>
+  </select>
+
+  <select id="selectBoarById" parameterType="Long" resultType="Board" >
+     <![CDATA[
+    select id, title, content, created_at, deleted_at, author, cnt
+    FROM board where ID = #{id}
+    ]]>
+  </select>
+
+  <insert id="insertBoard" parameterType="Board" >
+     <![CDATA[
+
+    INSERT INTO BOARD (title, content, author, created_at)
+    VALUES (#{title}, #{content}, #{author}, #{createdAt})
+
+    ]]>
+  </insert>
+
+  <update id="deleteBoardById" parameterType="Long" >
+     <![CDATA[
+      update BOARD
+      set deleted_at=SYSDATE
+      WHERE id = #{id}
+    ]]>
+  </update>
+
+  <update id="updateBoard" parameterType="Board" >
+     <![CDATA[
+    update BOARD
+    set title=#{title}, content=#{content}
+    WHERE id = #{id}
+    ]]>
+  </update>
+
+  <update id="updateCount" parameterType="Long" >
+     <![CDATA[
+    update BOARD
+    set cnt=cnt + 1
+    WHERE id = #{id}
+    ]]>
+  </update>
+
+  <select id="selectCnt" parameterType="Long" resultType="Integer" >
+     <![CDATA[
+    SELECT COUNT(*)
+    FROM likes
+    WHERE post_id = #{boardId}
+    ]]>
+  </select>
+
+  <insert id="like" parameterType="Like">
+    INSERT INTO LIKES (user_id,post_id)
+    VALUES (#{userId}, #{postId})
+  </insert>
+  <delete id="dislike" parameterType="Like">
+    delete from LIKES
+    where user_id = #{userId} and post_id=#{postId}
+  </delete>
+  <select id="selectLikeCnt" parameterType="Like" resultType="Like" >
+     <![CDATA[
+    SELECT *
+    FROM likes
+    WHERE post_id = #{postId} and user_id = #{userId}
+    ]]>
+  </select>
+</mapper>

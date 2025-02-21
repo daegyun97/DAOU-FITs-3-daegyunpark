@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="example.MyComment">
+
+
+
+  <select id="selectCommentsById" parameterType="Long" resultType="Comment" >
+     <![CDATA[
+    select id,board_id, content,author_id, created_at
+    FROM comments
+    where board_id = #{id} and  deleted_at IS NULL
+    order by created_at desc
+    ]]>
+  </select>
+
+  <insert id="insertComment" parameterType="Comment" >
+     <![CDATA[
+
+    INSERT INTO comments (content, author_id,board_id)
+    VALUES (#{content}, #{author},#{boardId})
+
+    ]]>
+  </insert>
+
+  <update id="deleteCommentById" parameterType="Long" >
+     <![CDATA[
+    update comments
+    set deleted_at=SYSDATE
+    WHERE id = #{id}
+    ]]>
+  </update>
+
+
+  <select id="selectCnt" parameterType="Long" resultType="int" >
+     <![CDATA[
+      SELECT COUNT(*)
+      FROM comments
+      WHERE board_id = #{boardId} and deleted_at IS NULL
+    ]]>
+  </select>
+</mapper>
